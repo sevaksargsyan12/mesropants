@@ -1,0 +1,82 @@
+{
+  "siteName": "Մեսրոպանց",
+  "nav": {
+    "home": "Գլխավոր",
+    "candles": "Մոմեր",
+    "churchCandles": "Եկեղեցական մոմեր",
+    "decorativeCandles": "Դեկորատիվ մոմեր",
+    "about": "Մեր մասին",
+    "contact": "Կապ"
+  },
+  "common": {
+    "readMore": "Իմանալ ավելին",
+    "viewAll": "Տեսնել բոլորը",
+    "priceOnRequest": "Գին՝ հարցման դեպքում",
+    "currency": "֏"
+  },
+  "home": {
+    "heroEyebrow": "Ավանդույթ և լույս 1998 թվականից",
+    "heroTitle": "Մեսրոպանց",
+    "heroSubtitle": "Ձեռագործ եկեղեցական և դեկորատիվ մոմեր՝ պատրաստված սիրով և ավանդույթի հանդեպ հարգանքով։",
+    "heroCta": "Դիտել մոմերը",
+    "aboutHeading": "Ովքե՞ր ենք մենք",
+    "aboutBlurb": "Մեսրոպանցը ընտանեկան արհեստանոց է, որը միավորում է եկեղեցական մոմերի պատրաստման հին ավանդույթը ժամանակակից դեկորատիվ արվեստի հետ։ Յուրաքանչյուր մոմ ստեղծվում է ձեռքով՝ բնական նյութերից։",
+    "candlesPreviewHeading": "Մեր մոմերը",
+    "candlesPreviewSubheading": "Եկեղեցական խորհրդանշանից մինչև ինտերիերի դեկոր",
+    "ctaHeading": "Ունե՞ք հարց կամ պատվեր",
+    "ctaSubheading": "Կապվեք մեզ հետ, և մենք հաճույքով կպատասխանենք Ձեր բոլոր հարցերին։",
+    "ctaButton": "Կապվել մեզ հետ"
+  },
+  "candles": {
+    "pageTitle": "Մոմեր",
+    "pageSubtitle": "Յուրաքանչյուր մոմ պատմում է իր պատմությունը՝ խորհրդանիշից մինչև դեկոր",
+    "churchTab": "Եկեղեցական",
+    "decorativeTab": "Դեկորատիվ",
+    "churchHeading": "Եկեղեցական մոմեր",
+    "churchDescription": "Ավանդական մոմեր՝ աղոթքի և արարողությունների համար։",
+    "decorativeHeading": "Դեկորատիվ մոմեր",
+    "decorativeDescription": "Ինտերիերի և նվերի համար նախատեսված յուրօրինակ մոմեր։",
+    "viewDetails": "Մանրամասն",
+    "emptyState": "Այս կատեգորիայում մոմեր առայժմ չկան։"
+  },
+  "candleDetail": {
+    "backLink": "Վերադառնալ մոմերին",
+    "categoryChurch": "Եկեղեցական մոմ",
+    "categoryDecorative": "Դեկորատիվ մոմ",
+    "descriptionHeading": "Նկարագրություն",
+    "inquireButton": "Հարցում ուղարկել"
+  },
+  "about": {
+    "pageTitle": "Մեր մասին",
+    "foundedLabel": "Հիմնադրվել է",
+    "missionHeading": "Մեր առաքելությունը",
+    "missionText": "Պահպանել մոմերի պատրաստման ավանդույթը՝ միաժամանակ ստեղծելով ժամանակակից, որակյալ արտադրանք ամեն օրվա և տոնական պահերի համար։"
+  },
+  "contact": {
+    "pageTitle": "Կապ մեզ հետ",
+    "pageSubtitle": "Հարցերի, պատվերների կամ համագործակցության համար դիմեք մեզ հետևյալ եղանակներով",
+    "phoneLabel": "Հեռախոս",
+    "addressLabel": "Հասցե",
+    "addressValue": "Երևան, Հայաստան",
+    "formHeading": "Գրեք մեզ",
+    "formNameLabel": "Անուն",
+    "formNamePlaceholder": "Ձեր անունը",
+    "formEmailLabel": "Էլ. փոստ",
+    "formEmailPlaceholder": "you@example.com",
+    "formMessageLabel": "Հաղորդագրություն",
+    "formMessagePlaceholder": "Ձեր հաղորդագրությունը...",
+    "formSubmit": "Ուղարկել",
+    "formSuccess": "Շնորհակալություն։ Ձեր հաղորդագրությունը ուղարկված է։"
+  },
+  "footer": {
+    "tagline": "Ձեռագործ մոմեր՝ սրտով պատրաստված",
+    "quickLinks": "Հղումներ",
+    "followUs": "Հետևեք մեզ",
+    "rights": "Բոլոր իրավունքները պաշտպանված են"
+  },
+  "social": {
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp"
+  }
+}

@@ -1,26 +1,120 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Placeholder brand palette derived from the Mesropants logo (deep
+ * burgundy/plum with gold linework). Swap these values once the final
+ * brand guidelines arrive -- nothing else in the app needs to change.
+ *
+ * --color-cream/-dark and --color-burgundy/-dark/-light double as an
+ * "accent surface" role (hero/CTA/footer/buttons: always dark-plum-bg +
+ * light text, unaffected by site theme) as well as a "page surface" role
+ * (page/header/card backgrounds and the headings/text sitting on them).
+ * Dark mode only needs to flip the second role, so it gets its own
+ * dedicated tokens below rather than overriding these directly.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-cream: #faf5ec;
+  --color-cream-dark: #f1e8d8;
+  --color-charcoal: #221a1c;
+  --color-burgundy: #3b0a32;
+  --color-burgundy-dark: #260620;
+  --color-burgundy-light: #5c1650;
+  --color-gold: #d4a24c;
+  --color-gold-light: #e6c37a;
+  --color-gold-dark: #a5781f;
+
+  /* Dark theme -- page-surface role only (see note above). */
+  --color-dark-bg: #3b0334;
+  --color-dark-bg-soft: #4a0a44;
+  --color-dark-text: #fcc207;
+
+  --glow-color: rgba(212, 162, 76, 0.55);
+}
+
+.dark {
+  --glow-color: rgba(252, 194, 7, 0.55);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-cream: var(--color-cream);
+  --color-cream-dark: var(--color-cream-dark);
+  --color-charcoal: var(--color-charcoal);
+  --color-burgundy: var(--color-burgundy);
+  --color-burgundy-dark: var(--color-burgundy-dark);
+  --color-burgundy-light: var(--color-burgundy-light);
+  --color-gold: var(--color-gold);
+  --color-gold-light: var(--color-gold-light);
+  --color-gold-dark: var(--color-gold-dark);
+  --color-dark-bg: var(--color-dark-bg);
+  --color-dark-bg-soft: var(--color-dark-bg-soft);
+  --color-dark-text: var(--color-dark-text);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-noto-sans), var(--font-noto-armenian), ui-sans-serif,
+    system-ui, sans-serif;
+  --font-display: var(--font-noto-serif), var(--font-noto-serif-armenian),
+    ui-serif, Georgia, serif;
+
+  --animate-reveal-char: reveal-char 0.6s ease forwards;
+  --animate-shadow-orbit: shadow-orbit 4s ease-in-out infinite;
+  --animate-logo-spin: logo-spin 16s linear infinite;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-burgundy-dark);
+}
+
+button:not(:disabled),
+[role="button"] {
+  cursor: pointer;
+}
+
+@keyframes reveal-char {
+  from {
+    opacity: 0;
+    transform: translateY(0.3em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Candle-flame-like glow that orbits around an element's edges. */
+@keyframes shadow-orbit {
+  0% {
+    box-shadow: 14px 4px 24px var(--glow-color);
+  }
+  25% {
+    box-shadow: 14px -4px 24px var(--glow-color);
+  }
+  50% {
+    box-shadow: -14px -4px 24px var(--glow-color);
+  }
+  75% {
+    box-shadow: -14px 4px 24px var(--glow-color);
+  }
+  100% {
+    box-shadow: 14px 4px 24px var(--glow-color);
+  }
+}
+
+@keyframes logo-spin {
+  0% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 1;
+  }
 }

@@ -1,0 +1,82 @@
+{
+  "siteName": "Mesropants",
+  "nav": {
+    "home": "Главная",
+    "candles": "Свечи",
+    "churchCandles": "Церковные свечи",
+    "decorativeCandles": "Декоративные свечи",
+    "about": "О нас",
+    "contact": "Контакты"
+  },
+  "common": {
+    "readMore": "Узнать больше",
+    "viewAll": "Смотреть все",
+    "priceOnRequest": "Цена по запросу",
+    "currency": "֏"
+  },
+  "home": {
+    "heroEyebrow": "Традиция и свет с 1998 года",
+    "heroTitle": "Mesropants",
+    "heroSubtitle": "Ручные церковные и декоративные свечи, созданные с любовью и уважением к традиции.",
+    "heroCta": "Смотреть свечи",
+    "aboutHeading": "Кто мы",
+    "aboutBlurb": "Mesropants — семейная мастерская, объединяющая старинную традицию изготовления церковных свечей с современным декоративным искусством. Каждая свеча создаётся вручную из натуральных материалов.",
+    "candlesPreviewHeading": "Наши свечи",
+    "candlesPreviewSubheading": "От церковного символа до украшения интерьера",
+    "ctaHeading": "Есть вопрос или заказ?",
+    "ctaSubheading": "Свяжитесь с нами, и мы с радостью ответим на все ваши вопросы.",
+    "ctaButton": "Связаться с нами"
+  },
+  "candles": {
+    "pageTitle": "Свечи",
+    "pageSubtitle": "У каждой свечи своя история — от символа до декора",
+    "churchTab": "Церковные",
+    "decorativeTab": "Декоративные",
+    "churchHeading": "Церковные свечи",
+    "churchDescription": "Традиционные свечи для молитвы и церковных обрядов.",
+    "decorativeHeading": "Декоративные свечи",
+    "decorativeDescription": "Уникальные свечи для интерьера и подарков.",
+    "viewDetails": "Подробнее",
+    "emptyState": "В этой категории пока нет свечей."
+  },
+  "candleDetail": {
+    "backLink": "Назад к свечам",
+    "categoryChurch": "Церковная свеча",
+    "categoryDecorative": "Декоративная свеча",
+    "descriptionHeading": "Описание",
+    "inquireButton": "Отправить запрос"
+  },
+  "about": {
+    "pageTitle": "О нас",
+    "foundedLabel": "Год основания",
+    "missionHeading": "Наша миссия",
+    "missionText": "Сохранять традицию изготовления свечей, создавая при этом современный качественный продукт для будней и праздников."
+  },
+  "contact": {
+    "pageTitle": "Связаться с нами",
+    "pageSubtitle": "По вопросам, заказам или сотрудничеству обращайтесь к нам следующими способами",
+    "phoneLabel": "Телефон",
+    "addressLabel": "Адрес",
+    "addressValue": "Ереван, Армения",
+    "formHeading": "Напишите нам",
+    "formNameLabel": "Имя",
+    "formNamePlaceholder": "Ваше имя",
+    "formEmailLabel": "Эл. почта",
+    "formEmailPlaceholder": "you@example.com",
+    "formMessageLabel": "Сообщение",
+    "formMessagePlaceholder": "Ваше сообщение...",
+    "formSubmit": "Отправить",
+    "formSuccess": "Спасибо! Ваше сообщение отправлено."
+  },
+  "footer": {
+    "tagline": "Ручные свечи, сделанные с душой",
+    "quickLinks": "Ссылки",
+    "followUs": "Мы в соцсетях",
+    "rights": "Все права защищены"
+  },
+  "social": {
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "siteName": "Mesropants",
+  "nav": {
+    "home": "Home",
+    "candles": "Candles",
+    "churchCandles": "Church Candles",
+    "decorativeCandles": "Decorative Candles",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "common": {
+    "readMore": "Read more",
+    "viewAll": "View all",
+    "priceOnRequest": "Price on request",
+    "currency": "֏"
+  },
+  "home": {
+    "heroEyebrow": "Tradition and light since 1998",
+    "heroTitle": "Mesropants",
+    "heroSubtitle": "Handmade church and decorative candles, crafted with love and respect for tradition.",
+    "heroCta": "View candles",
+    "aboutHeading": "Who we are",
+    "aboutBlurb": "Mesropants is a family workshop bringing together the age-old tradition of church candle making with modern decorative craft. Every candle is handmade from natural materials.",
+    "candlesPreviewHeading": "Our candles",
+    "candlesPreviewSubheading": "From sacred symbol to interior decor",
+    "ctaHeading": "Have a question or an order?",
+    "ctaSubheading": "Reach out to us — we're happy to answer any questions you have.",
+    "ctaButton": "Contact us"
+  },
+  "candles": {
+    "pageTitle": "Candles",
+    "pageSubtitle": "Every candle tells its own story — from symbol to decor",
+    "churchTab": "Church",
+    "decorativeTab": "Decorative",
+    "churchHeading": "Church Candles",
+    "churchDescription": "Traditional candles for prayer and church rites.",
+    "decorativeHeading": "Decorative Candles",
+    "decorativeDescription": "Unique candles for interiors and gifts.",
+    "viewDetails": "View details",
+    "emptyState": "No candles in this category yet."
+  },
+  "candleDetail": {
+    "backLink": "Back to candles",
+    "categoryChurch": "Church candle",
+    "categoryDecorative": "Decorative candle",
+    "descriptionHeading": "Description",
+    "inquireButton": "Send inquiry"
+  },
+  "about": {
+    "pageTitle": "About Us",
+    "foundedLabel": "Founded",
+    "missionHeading": "Our mission",
+    "missionText": "To preserve the tradition of candle making while creating a modern, quality product for everyday life and celebrations."
+  },
+  "contact": {
+    "pageTitle": "Get in Touch",
+    "pageSubtitle": "For questions, orders, or collaboration, reach us through any of the channels below",
+    "phoneLabel": "Phone",
+    "addressLabel": "Address",
+    "addressValue": "Yerevan, Armenia",
+    "formHeading": "Write to us",
+    "formNameLabel": "Name",
+    "formNamePlaceholder": "Your name",
+    "formEmailLabel": "Email",
+    "formEmailPlaceholder": "you@example.com",
+    "formMessageLabel": "Message",
+    "formMessagePlaceholder": "Your message...",
+    "formSubmit": "Send",
+    "formSuccess": "Thank you! Your message has been sent."
+  },
+  "footer": {
+    "tagline": "Handmade candles, crafted with heart",
+    "quickLinks": "Quick Links",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved"
+  },
+  "social": {
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp"
+  }
+}
