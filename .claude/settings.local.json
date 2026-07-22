@@ -32,7 +32,14 @@
       "Bash(sed -i 's#localhost:3000#localhost:3001#' hover-check.mjs)",
       "Bash(node hover-check.mjs)",
       "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 3000,3001 -State Listen -ErrorAction SilentlyContinue | Select-Object LocalPort,OwningProcess\")",
-      "Bash(powershell -Command \"Stop-Process -Id 25060,26052 -Force\")"
+      "Bash(powershell -Command \"Stop-Process -Id 25060,26052 -Force\")",
+      "Bash(node drawer-check.mjs)",
+      "Bash(powershell -Command \"Stop-Process -Id 24516 -Force\")",
+      "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 3000,3001 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess\")",
+      "Bash(powershell -Command \"Stop-Process -Id 19180,1072 -Force\")",
+      "Bash(powershell -Command \"Stop-Process -Id 28120 -Force\")",
+      "Bash(node prefetch-check.mjs)",
+      "Bash(node final-drawer-check.mjs)"
     ],
     "additionalDirectories": [
       "d:\\levi\\Mesropants\\app_next\\src\\app",
