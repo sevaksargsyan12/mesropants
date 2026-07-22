@@ -42,7 +42,7 @@ export default function HeroSlider({
           fill
           sizes="100vw"
           priority={i === 0}
-          className={`object-cover object-left transition-opacity duration-1000 ${
+          className={`object-cover object-center transition-opacity duration-1000 sm:object-left ${
             i === index ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -70,7 +70,7 @@ export default function HeroSlider({
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-6 flex justify-center gap-2 sm:justify-start sm:pl-6 lg:pl-10">
+      <div className="absolute inset-x-0 bottom-6 hidden justify-center gap-2 sm:flex sm:justify-start sm:pl-6 lg:pl-10">
         {slides.map((slide, i) => (
           <button
             key={slide.src}
