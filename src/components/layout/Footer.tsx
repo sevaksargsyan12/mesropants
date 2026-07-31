@@ -3,17 +3,24 @@ import Link from "next/link";
 import { Phone, MapPin } from "lucide-react";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/getDictionary";
-import { siteSettings } from "@/lib/mock/siteSettings";
+import type { SiteSettings } from "@/lib/graphql/queries/siteSettings";
 import SocialLinks from "./SocialLinks";
 import Container from "../ui/Container";
 
 type FooterProps = {
   lang: Locale;
   dict: Dictionary;
+  siteSettings: SiteSettings;
 };
 
-export default function Footer({ lang, dict }: FooterProps) {
+export default function Footer({ lang, dict, siteSettings }: FooterProps) {
   const year = new Date().getFullYear();
+  const phoneHref = `tel:${siteSettings.phoneNumber.replace(/[^\d+]/g, "")}`;
+  const socialLinks = {
+    instagram: siteSettings.instagramLink,
+    facebook: siteSettings.facebookLink,
+    whatsapp: siteSettings.whatsappLink,
+  };
 
   const navItems = [
     { href: `/${lang}`, label: dict.nav.home },
@@ -66,8 +73,8 @@ export default function Footer({ lang, dict }: FooterProps) {
           <ul className="mt-4 space-y-3 text-sm text-cream/80">
             <li className="flex items-center gap-2">
               <Phone className="h-4 w-4 text-gold" />
-              <a href={siteSettings.phoneHref} className="hover:text-gold">
-                {siteSettings.phone}
+              <a href={phoneHref} className="hover:text-gold">
+                {siteSettings.phoneDisplayNumber}
               </a>
             </li>
             <li className="flex items-center gap-2">
@@ -81,7 +88,11 @@ export default function Footer({ lang, dict }: FooterProps) {
           <h3 className="font-display text-sm font-semibold uppercase tracking-widest text-gold">
             {dict.footer.followUs}
           </h3>
-          <SocialLinks labels={dict.social} className="mt-4 text-cream" />
+          <SocialLinks
+            labels={dict.social}
+            links={socialLinks}
+            className="mt-4 text-cream"
+          />
         </div>
       </Container>
 

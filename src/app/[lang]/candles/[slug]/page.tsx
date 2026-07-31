@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
-import { getCandleBySlug } from "@/lib/mock/candles";
+import { getCandleBySlug } from "@/lib/graphql/queries/candles";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 
@@ -17,7 +17,10 @@ export default async function CandleDetailPage({
   if (!isLocale(lang)) notFound();
 
   const dict = await getDictionary(lang as Locale);
-  const candle = getCandleBySlug(slug);
+  // Non-ASCII dynamic segments arrive still percent-encoded (e.g.
+  // "bubble-%D5%AF..." instead of "bubble-կուբիկաձև...") rather than
+  // pre-decoded, so decode explicitly before using it as a lookup key.
+  const candle = await getCandleBySlug(lang as Locale, decodeURIComponent(slug));
   if (!candle) notFound();
 
   const categoryLabel =
@@ -76,9 +79,10 @@ export default async function CandleDetailPage({
                 <h2 className="font-display text-sm font-semibold uppercase tracking-widest text-burgundy/70 dark:text-dark-text/70">
                   {dict.candleDetail.descriptionHeading}
                 </h2>
-                <p className="mt-3 leading-relaxed text-charcoal/80 dark:text-dark-text/80">
-                  {candle.description}
-                </p>
+                <div
+                  className="mt-3 leading-relaxed text-charcoal/80 [&_p]:mb-3 last:[&_p]:mb-0 dark:text-dark-text/80"
+                  dangerouslySetInnerHTML={{ __html: candle.description }}
+                />
               </div>
             )}
 

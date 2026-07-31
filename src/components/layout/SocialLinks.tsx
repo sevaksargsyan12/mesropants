@@ -1,5 +1,3 @@
-import { siteSettings } from "@/lib/mock/siteSettings";
-
 // lucide-react dropped brand marks, so Instagram/Facebook/WhatsApp are
 // hand-rolled here as small inline SVGs matching lucide's 24x24 stroke style.
 function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -57,19 +55,21 @@ function WhatsAppIcon(props: React.SVGProps<SVGSVGElement>) {
 
 type SocialLinksProps = {
   labels: { instagram: string; facebook: string; whatsapp: string };
+  links: { instagram: string; facebook: string; whatsapp: string };
   className?: string;
   iconClassName?: string;
 };
 
 export default function SocialLinks({
   labels,
+  links: hrefs,
   className = "",
   iconClassName = "h-5 w-5",
 }: SocialLinksProps) {
   const links = [
-    { href: siteSettings.social.instagram, label: labels.instagram, Icon: InstagramIcon },
-    { href: siteSettings.social.facebook, label: labels.facebook, Icon: FacebookIcon },
-    { href: siteSettings.social.whatsapp, label: labels.whatsapp, Icon: WhatsAppIcon },
+    { href: hrefs.instagram, label: labels.instagram, Icon: InstagramIcon },
+    { href: hrefs.facebook, label: labels.facebook, Icon: FacebookIcon },
+    { href: hrefs.whatsapp, label: labels.whatsapp, Icon: WhatsAppIcon },
   ];
 
   return (

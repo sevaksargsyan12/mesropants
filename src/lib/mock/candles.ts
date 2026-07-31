@@ -18,6 +18,7 @@ export const candles: Candle[] = [
       "Ավանդական սպիտակ մոմ՝ ապակե անոթի մեջ, խաչի նուրբ փորագրությամբ։ Հարմար է տաճարների և տնային աղոթարանների համար։",
     price: 1200,
     showPrice: true,
+    isFeatured: false,
   },
   {
     id: "2",
@@ -32,6 +33,7 @@ export const candles: Candle[] = [
       "Երկարավառ կարմիր մոմ՝ խիտ ապակե անոթի մեջ։ Այրվում է հավասարաչափ և երկար ժամանակ՝ առանց ծխի։",
     price: 1500,
     showPrice: true,
+    isFeatured: false,
   },
   {
     id: "3",
@@ -46,6 +48,7 @@ export const candles: Candle[] = [
       "Դասական սպիտակ մոմերի հավաքածու՝ զոհասեղանի և ընտանեկան արարողությունների համար։",
     price: 900,
     showPrice: true,
+    isFeatured: false,
   },
   {
     id: "4",
@@ -60,6 +63,7 @@ export const candles: Candle[] = [
       "100% բնական մեղրամոմից պատրաստված բարակ ու երկար մոմեր՝ կապված բնական պարանով։ Հատուկ պատվերով քանակություն։",
     price: null,
     showPrice: false,
+    isFeatured: false,
   },
   {
     id: "5",
@@ -74,6 +78,7 @@ export const candles: Candle[] = [
       "Զույգ նուրբ ոլորուն մոմեր՝ վարդագույն և մանուշակագույն երանգներով։ Հիանալի են սեղանի դեկորի համար։",
     price: 3200,
     showPrice: true,
+    isFeatured: false,
   },
   {
     id: "6",
@@ -88,6 +93,7 @@ export const candles: Candle[] = [
       "Ձեռագործ ծաղկաձև մոմ՝ նուրբ, թերթիկավոր ձևով։ Ամանը ներառված է հավաքածուի մեջ։",
     price: 4500,
     showPrice: true,
+    isFeatured: false,
   },
   {
     id: "7",
@@ -102,6 +108,7 @@ export const candles: Candle[] = [
       "Ժամանակակից դիզայնով «bubble» մոմ՝ գնդիկաձև մակերեսով։ Աչքի ընկնող դետալ ցանկացած ինտերիերում։",
     price: 3800,
     showPrice: true,
+    isFeatured: false,
   },
   {
     id: "8",
@@ -116,6 +123,7 @@ export const candles: Candle[] = [
       "Երեք ռելիեֆային մոմերից բաղկացած հավաքածու՝ crème, բեժ և վարդագույն երանգներով։ Իդեալական է նվերի համար։",
     price: 5200,
     showPrice: true,
+    isFeatured: false,
   },
 ];
 

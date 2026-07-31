@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Candle } from "@/types/candle";
 import type { Locale } from "@/lib/i18n/config";
 import CandleGrid from "./CandleGrid";
 
 type CandleTabsProps = {
-  churchCandles: Candle[];
-  decorativeCandles: Candle[];
+  candles: Candle[];
   lang: Locale;
   churchTabLabel: string;
   decorativeTabLabel: string;
@@ -20,8 +19,7 @@ type CandleTabsProps = {
 type Tab = "church" | "decorative";
 
 export default function CandleTabs({
-  churchCandles,
-  decorativeCandles,
+  candles,
   lang,
   churchTabLabel,
   decorativeTabLabel,
@@ -37,7 +35,12 @@ export default function CandleTabs({
     { id: "decorative", label: decorativeTabLabel },
   ];
 
-  const activeCandles = activeTab === "church" ? churchCandles : decorativeCandles;
+  // Already-fetched data, filtered in memory -- switching tabs never
+  // triggers a network request.
+  const activeCandles = useMemo(
+    () => candles.filter((candle) => candle.category === activeTab),
+    [candles, activeTab]
+  );
 
   return (
     <div>

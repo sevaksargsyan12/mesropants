@@ -8,7 +8,7 @@ type Slide = { src: string; alt: string };
 
 type HeroSliderProps = {
   slides: Slide[];
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   subtitle: string;
   ctaLabel: string;
@@ -26,6 +26,7 @@ export default function HeroSlider({
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (slides.length <= 1) return;
     const id = setInterval(() => {
       setIndex((i) => (i + 1) % slides.length);
     }, 6000);
@@ -55,9 +56,11 @@ export default function HeroSlider({
 
       <div className="absolute inset-0 mx-auto flex w-full max-w-6xl items-center px-6 sm:px-8 lg:px-10">
         <div className="max-w-md text-cream">
-          <p className="font-display text-sm uppercase tracking-[0.3em] text-gold">
-            {eyebrow}
-          </p>
+          {eyebrow && (
+            <p className="font-display text-sm uppercase tracking-[0.3em] text-gold">
+              {eyebrow}
+            </p>
+          )}
           <h1 className="mt-4 font-display text-5xl font-semibold tracking-wide sm:text-6xl">
             {title}
           </h1>

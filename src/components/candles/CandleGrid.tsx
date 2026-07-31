@@ -27,6 +27,40 @@ export default function CandleGrid({
     );
   }
 
+  // Don't assume a full 3-column grid -- a thin category or a small featured
+  // set shouldn't look like a layout mistake with dangling empty columns.
+  if (candles.length === 1) {
+    return (
+      <div className="mx-auto max-w-sm">
+        <CandleCard
+          candle={candles[0]}
+          lang={lang}
+          viewDetailsLabel={viewDetailsLabel}
+          priceOnRequestLabel={priceOnRequestLabel}
+          currency={currency}
+        />
+      </div>
+    );
+  }
+
+  if (candles.length === 2) {
+    return (
+      <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2">
+        {candles.map((candle, index) => (
+          <CandleCard
+            key={candle.id}
+            candle={candle}
+            lang={lang}
+            index={index}
+            viewDetailsLabel={viewDetailsLabel}
+            priceOnRequestLabel={priceOnRequestLabel}
+            currency={currency}
+          />
+        ))}
+      </div>
+    );
+  }
+
   // With 3 desktop columns, a lone item left over in the final row (e.g. 4 or
   // 7 candles) would otherwise sit flush left -- center it under the row above.
   const isOrphan = candles.length % 3 === 1;

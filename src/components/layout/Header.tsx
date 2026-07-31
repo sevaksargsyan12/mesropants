@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/getDictionary";
+import type { SiteSettings } from "@/lib/graphql/queries/siteSettings";
 import LanguageSwitcher from "./LanguageSwitcher";
 import SocialLinks from "./SocialLinks";
 import ThemeToggle from "./ThemeToggle";
@@ -14,9 +15,15 @@ import ThemeToggle from "./ThemeToggle";
 type HeaderProps = {
   lang: Locale;
   dict: Dictionary;
+  siteSettings: SiteSettings;
 };
 
-export default function Header({ lang, dict }: HeaderProps) {
+export default function Header({ lang, dict, siteSettings }: HeaderProps) {
+  const socialLinks = {
+    instagram: siteSettings.instagramLink,
+    facebook: siteSettings.facebookLink,
+    whatsapp: siteSettings.whatsappLink,
+  };
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -75,7 +82,11 @@ export default function Header({ lang, dict }: HeaderProps) {
           </nav>
 
           <div className="hidden items-center gap-4 md:flex">
-            <SocialLinks labels={dict.social} className="text-burgundy dark:text-dark-text" />
+            <SocialLinks
+              labels={dict.social}
+              links={socialLinks}
+              className="text-burgundy dark:text-dark-text"
+            />
             <LanguageSwitcher currentLocale={lang} className="text-burgundy dark:text-dark-text" />
             <ThemeToggle className="text-burgundy dark:text-dark-text" />
           </div>
@@ -161,7 +172,11 @@ export default function Header({ lang, dict }: HeaderProps) {
         </nav>
 
         <div className="mt-auto flex items-center justify-between border-t border-burgundy/10 px-6 py-6 dark:border-dark-text/10">
-          <SocialLinks labels={dict.social} className="text-burgundy dark:text-dark-text" />
+          <SocialLinks
+            labels={dict.social}
+            links={socialLinks}
+            className="text-burgundy dark:text-dark-text"
+          />
           <LanguageSwitcher currentLocale={lang} className="text-burgundy dark:text-dark-text" />
         </div>
       </div>
