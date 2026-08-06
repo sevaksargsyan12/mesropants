@@ -9,4 +9,5 @@ export type Candle = {
   description: string | null;
   price: number | null;
   showPrice: boolean;
+  isFeatured: boolean;
 };

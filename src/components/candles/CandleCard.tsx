@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Candle } from "@/types/candle";
 import type { Locale } from "@/lib/i18n/config";
+import { htmlToText } from "@/lib/sanitize";
 
 type CandleCardProps = {
   candle: Candle;
@@ -56,7 +57,7 @@ export default function CandleCard({
 
         {candle.description && (
           <p className="mt-1.5 line-clamp-2 text-sm text-cream/75">
-            {candle.description}
+            {htmlToText(candle.description)}
           </p>
         )}
 

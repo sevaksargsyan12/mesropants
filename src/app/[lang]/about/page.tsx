@@ -2,7 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
-import { getAboutContent } from "@/lib/mock/about";
+import { getAboutContent } from "@/lib/graphql/queries/about";
 import Container from "@/components/ui/Container";
 import RevealText from "@/components/ui/RevealText";
 
@@ -15,7 +15,7 @@ export default async function AboutPage({
   if (!isLocale(lang)) notFound();
 
   const dict = await getDictionary(lang as Locale);
-  const about = getAboutContent(lang as Locale);
+  const about = await getAboutContent(lang as Locale);
 
   return (
     <section className="py-16 sm:py-20">
@@ -27,7 +27,7 @@ export default async function AboutPage({
             className="font-display text-4xl font-semibold text-burgundy dark:text-dark-text sm:text-5xl"
           />
           <p className="mt-3 text-sm font-semibold uppercase tracking-widest text-gold-dark">
-            {dict.about.foundedLabel} {about.foundedYear}
+            {about.foundedYear}
           </p>
         </div>
 
@@ -43,9 +43,10 @@ export default async function AboutPage({
           </div>
 
           <div>
-            <p className="leading-relaxed text-charcoal/80 dark:text-dark-text/80">
-              {about.aboutText}
-            </p>
+            <div
+              className="leading-relaxed text-charcoal/80 [&_p]:mb-4 last:[&_p]:mb-0 dark:text-dark-text/80"
+              dangerouslySetInnerHTML={{ __html: about.aboutText }}
+            />
 
             <div className="mt-10 rounded-2xl border border-gold/25 bg-cream-dark/50 p-6 dark:bg-dark-bg-soft/50">
               <RevealText

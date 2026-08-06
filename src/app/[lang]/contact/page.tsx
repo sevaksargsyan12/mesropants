@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Phone, MapPin } from "lucide-react";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
-import { siteSettings } from "@/lib/mock/siteSettings";
+import { getContactPageData } from "@/lib/graphql/queries/contact";
 import Container from "@/components/ui/Container";
 import SocialLinks from "@/components/layout/SocialLinks";
 import ContactForm from "@/components/contact/ContactForm";
@@ -16,16 +16,24 @@ export default async function ContactPage({
   if (!isLocale(lang)) notFound();
 
   const dict = await getDictionary(lang as Locale);
+  const { contactHeading, contactSubheading, siteSettings } =
+    await getContactPageData(lang as Locale);
+  const phoneHref = `tel:${siteSettings.phoneNumber.replace(/[^\d+]/g, "")}`;
+  const socialLinks = {
+    instagram: siteSettings.instagramLink,
+    facebook: siteSettings.facebookLink,
+    whatsapp: siteSettings.whatsappLink,
+  };
 
   return (
     <section className="py-16 sm:py-20">
       <Container>
         <div className="text-center">
           <h1 className="font-display text-4xl font-semibold text-burgundy dark:text-dark-text sm:text-5xl">
-            {dict.contact.pageTitle}
+            {contactHeading}
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-charcoal/70 dark:text-dark-text/70">
-            {dict.contact.pageSubtitle}
+            {contactSubheading}
           </p>
         </div>
 
@@ -42,10 +50,10 @@ export default async function ContactPage({
                       {dict.contact.phoneLabel}
                     </p>
                     <a
-                      href={siteSettings.phoneHref}
+                      href={phoneHref}
                       className="text-sm font-medium text-charcoal hover:text-gold-dark dark:text-dark-text"
                     >
-                      {siteSettings.phone}
+                      {siteSettings.phoneDisplayNumber}
                     </a>
                   </div>
                 </li>
@@ -71,6 +79,7 @@ export default async function ContactPage({
               </h2>
               <SocialLinks
                 labels={dict.social}
+                links={socialLinks}
                 className="mt-3 text-burgundy dark:text-dark-text"
               />
             </div>

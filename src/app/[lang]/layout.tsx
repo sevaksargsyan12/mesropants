@@ -10,6 +10,7 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import { locales, isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
+import { getSiteSettings } from "@/lib/graphql/queries/siteSettings";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -68,6 +69,7 @@ export default async function LangLayout({
   }
 
   const dict = await getDictionary(lang as Locale);
+  const siteSettings = await getSiteSettings(lang as Locale);
 
   return (
     <html
@@ -90,9 +92,9 @@ export default async function LangLayout({
         />
       </head>
       <body className="flex min-h-full flex-col bg-cream text-charcoal dark:bg-dark-bg dark:text-dark-text">
-        <Header lang={lang as Locale} dict={dict} />
+        <Header lang={lang as Locale} dict={dict} siteSettings={siteSettings} />
         <main className="flex-1">{children}</main>
-        <Footer lang={lang as Locale} dict={dict} />
+        <Footer lang={lang as Locale} dict={dict} siteSettings={siteSettings} />
       </body>
     </html>
   );

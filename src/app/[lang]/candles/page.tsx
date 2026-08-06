@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
-import { getCandlesByCategory } from "@/lib/mock/candles";
+import { getCandles, getCandlesPageContent } from "@/lib/graphql/queries/candles";
 import Container from "@/components/ui/Container";
 import CandleTabs from "@/components/candles/CandleTabs";
 
@@ -14,25 +14,24 @@ export default async function CandlesPage({
   if (!isLocale(lang)) notFound();
 
   const dict = await getDictionary(lang as Locale);
-  const churchCandles = getCandlesByCategory("church");
-  const decorativeCandles = getCandlesByCategory("decorative");
+  const pageContent = await getCandlesPageContent(lang as Locale);
+  const candles = await getCandles(lang as Locale);
 
   return (
     <section className="py-16 sm:py-20">
       <Container>
         <div className="text-center">
           <h1 className="font-display text-4xl font-semibold text-burgundy dark:text-dark-text sm:text-5xl">
-            {dict.candles.pageTitle}
+            {pageContent.candlesPageHeading}
           </h1>
           <p className="mt-3 text-charcoal/70 dark:text-dark-text/70">
-            {dict.candles.pageSubtitle}
+            {pageContent.candlesPageSubheading}
           </p>
         </div>
 
         <div className="mt-14">
           <CandleTabs
-            churchCandles={churchCandles}
-            decorativeCandles={decorativeCandles}
+            candles={candles}
             lang={lang as Locale}
             churchTabLabel={dict.candles.churchTab}
             decorativeTabLabel={dict.candles.decorativeTab}

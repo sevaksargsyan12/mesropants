@@ -1,49 +1,29 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node -e ' *)",
-      "Bash(mkdir -p \"d:/levi/Mesropants/app_next/src/app/[lang]\")",
-      "Bash(mkdir -p \"d:/levi/Mesropants/app_next/src/app/[lang]/candles/church\" \"d:/levi/Mesropants/app_next/src/app/[lang]/candles/decorative\" \"d:/levi/Mesropants/app_next/src/app/[lang]/candles/[slug]\" \"d:/levi/Mesropants/app_next/src/app/[lang]/about\" \"d:/levi/Mesropants/app_next/src/app/[lang]/contact\")",
-      "Bash(npx tsc *)",
-      "Bash(npm run *)",
+      "Bash(node:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npx playwright:*)",
+      
+      "Bash(npx --yes playwright:*)",
+      "Bash(npm run:*)",
+      "Bash(npm ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(sed -i:*)",
+      "Bash(grep:*)",
+      "Bash(curl:*)",
+      "Bash(timeout:*)",
+      "Bash(rm -rf .next)",
+      "Bash(powershell -Command \"Stop-Process*)",
+      "Bash(powershell -Command \"Get-NetTCPConnection*)",
+      "PowerShell(*)",
       "Skill(run)",
       "Skill(run:*)",
-      "Bash(timeout 40 bash -c 'until curl -sf http://localhost:3000 -o /dev/null; do sleep 1; done')",
-      "Read(//tmp/**)",
-      "Bash(npx --yes playwright --version)",
-      "Bash(npx playwright *)",
-      "Bash(node \"C:/Users/Sevak/AppData/Local/Temp/claude/d--levi-Mesropants-app-next/1cb96442-1fd6-42a6-a8da-f0f79292b600/scratchpad/screenshot.mjs\")",
-      "Bash(powershell -Command \"Stop-Process -Id 8028 -Force\")",
-      "Bash(npx eslint *)",
-      "PowerShell(Add-Type -AssemblyName System.Drawing; foreach \\($f in @\\('hero.webp','hero2.webp','hero3.webp'\\)\\) { $p = \"d:\\\\levi\\\\Mesropants\\\\app_next\\\\public\\\\images\\\\hero_slider\\\\$f\"; try { $img = [System.Drawing.Image]::FromFile\\($p\\); \"$f : $\\($img.Width\\) x $\\($img.Height\\) \\(ratio $\\([math]::Round\\($img.Width/$img.Height,3\\)\\)\\)\"; $img.Dispose\\(\\) } catch { \"$f : ERROR $\\($_.Exception.Message\\)\" } })",
-      "Bash(npm ls *)",
-      "Bash(node -e \"console.log\\(require\\('fs'\\).readFileSync\\('node_modules/tailwindcss/package.json','utf8'\\)\\)\")",
-      "Bash(grep -o \"dark.\\\\{0,120\\\\}\" node_modules/tailwindcss/dist/lib.js)",
-      "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 3001 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess\")",
-      "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess\")",
-      "Bash(powershell -Command \"Stop-Process -Id 7996 -Force\")",
-      "Bash(powershell -Command \"Stop-Process -Id 23696 -Force\")",
-      "Bash(node verify-fixes.mjs)",
-      "Bash(powershell -Command \"Stop-Process -Id 27452 -Force\")",
-      "Bash(rm -rf .next)",
-      "Bash(powershell -Command \"Stop-Process -Id 14192 -Force\")",
-      "Bash(powershell -Command \"Stop-Process -Id 26148 -Force\")",
-      "Bash(curl -s http://localhost:3000/hy)",
-      "Bash(sed -i 's#localhost:3000#localhost:3001#' hover-check.mjs)",
-      "Bash(node hover-check.mjs)",
-      "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 3000,3001 -State Listen -ErrorAction SilentlyContinue | Select-Object LocalPort,OwningProcess\")",
-      "Bash(powershell -Command \"Stop-Process -Id 25060,26052 -Force\")",
-      "Bash(node drawer-check.mjs)",
-      "Bash(powershell -Command \"Stop-Process -Id 24516 -Force\")",
-      "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 3000,3001 -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess\")",
-      "Bash(powershell -Command \"Stop-Process -Id 19180,1072 -Force\")",
-      "Bash(powershell -Command \"Stop-Process -Id 28120 -Force\")",
-      "Bash(node prefetch-check.mjs)",
-      "Bash(node final-drawer-check.mjs)"
-    ],
-    "additionalDirectories": [
-      "d:\\levi\\Mesropants\\app_next\\src\\app",
-      "d:\\levi\\Mesropants\\app_next\\src\\app\\[lang]\\candles"
+      "Read(//tmp/**)"
     ]
-  }
+  },
+  "additionalDirectories": [
+    "d:\\levi\\Mesropants\\app_next\\src\\app"
+  ]
 }

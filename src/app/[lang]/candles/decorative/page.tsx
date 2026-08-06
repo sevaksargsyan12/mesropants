@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
-import { getCandlesByCategory } from "@/lib/mock/candles";
+import { getCandles } from "@/lib/graphql/queries/candles";
 import Container from "@/components/ui/Container";
 import CandleGrid from "@/components/candles/CandleGrid";
 
@@ -14,7 +14,8 @@ export default async function DecorativeCandlesPage({
   if (!isLocale(lang)) notFound();
 
   const dict = await getDictionary(lang as Locale);
-  const candles = getCandlesByCategory("decorative");
+  const allCandles = await getCandles(lang as Locale);
+  const candles = allCandles.filter((candle) => candle.category === "decorative");
 
   return (
     <section className="py-16 sm:py-20">
