@@ -1,13 +1,31 @@
+import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
 import { getHomeContent } from "@/lib/graphql/queries/home";
 import { getCandles } from "@/lib/graphql/queries/candles";
+import { buildAlternates } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import RevealText from "@/components/ui/RevealText";
 import CandleGrid from "@/components/candles/CandleGrid";
 import HeroSlider from "@/components/home/HeroSlider";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isLocale(lang)) return {};
+
+  const homeContent = await getHomeContent(lang);
+  return {
+    title: homeContent.heroHeading,
+    description: homeContent.heroDescription,
+    alternates: buildAlternates("", lang),
+  };
+}
 
 export default async function HomePage({
   params,

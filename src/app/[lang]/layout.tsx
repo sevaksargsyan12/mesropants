@@ -11,8 +11,13 @@ import "../globals.css";
 import { locales, isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
 import { getSiteSettings } from "@/lib/graphql/queries/siteSettings";
+import { buildOrganizationSchema } from "@/lib/seo";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import JsonLd from "@/components/seo/JsonLd";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const OG_LOCALE: Record<Locale, string> = { hy: "hy_AM", ru: "ru_RU", en: "en_US" };
 
 const notoSans = Noto_Sans({
   subsets: ["latin", "cyrillic"],
@@ -47,11 +52,26 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
-  const { lang } = await params;
-  const dict = await getDictionary(isLocale(lang) ? lang : "hy");
+  const { lang: rawLang } = await params;
+  const lang = isLocale(rawLang) ? rawLang : "hy";
+  const dict = await getDictionary(lang);
+
   return {
-    title: `${dict.siteName} — ${dict.home.heroSubtitle}`,
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: `${dict.siteName} — ${dict.home.heroSubtitle}`,
+      template: `%s | ${dict.siteName}`,
+    },
     description: dict.home.aboutBlurb,
+    keywords: dict.seo.keywords,
+    robots: { index: true, follow: true },
+    openGraph: {
+      siteName: dict.siteName,
+      locale: OG_LOCALE[lang],
+      alternateLocale: locales.filter((l) => l !== lang).map((l) => OG_LOCALE[l]),
+      images: [`${SITE_URL}/images/logo.jpg`],
+      type: "website",
+    },
   };
 }
 
@@ -92,6 +112,7 @@ export default async function LangLayout({
         />
       </head>
       <body className="flex min-h-full flex-col bg-cream text-charcoal dark:bg-dark-bg dark:text-dark-text">
+        <JsonLd data={buildOrganizationSchema(siteSettings, lang as Locale, dict.siteName)} />
         <Header lang={lang as Locale} dict={dict} siteSettings={siteSettings} />
         <main className="flex-1">{children}</main>
         <Footer lang={lang as Locale} dict={dict} siteSettings={siteSettings} />

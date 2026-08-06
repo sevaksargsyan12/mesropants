@@ -2,14 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { locales, defaultLocale } from "@/lib/i18n/config";
 
-function getPreferredLocale(request: NextRequest): string {
-  const acceptLanguage = request.headers.get("accept-language") ?? "";
-  const preferred = acceptLanguage.split(",")[0]?.slice(0, 2).toLowerCase();
-  return (locales as readonly string[]).includes(preferred)
-    ? preferred
-    : defaultLocale;
-}
-
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -19,12 +11,14 @@ export function proxy(request: NextRequest) {
 
   if (pathnameHasLocale) return NextResponse.next();
 
-  const locale = getPreferredLocale(request);
+  // Always default to hy rather than guessing from the browser's
+  // Accept-Language header -- the site should open in Armenian regardless
+  // of the visitor's browser language.
   const url = request.nextUrl.clone();
-  url.pathname = `/${locale}${pathname}`;
+  url.pathname = `/${defaultLocale}${pathname}`;
   return NextResponse.redirect(url);
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|images|favicon.ico).*)"],
+  matcher: ["/((?!api|_next|images|favicon.ico|sitemap.xml|robots.txt).*)"],
 };

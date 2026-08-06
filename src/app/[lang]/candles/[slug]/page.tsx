@@ -1,12 +1,36 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
-import { getCandleBySlug } from "@/lib/graphql/queries/candles";
+import { getCandleBySlug, getCandleLocalizedSlugs } from "@/lib/graphql/queries/candles";
+import { buildCandleAlternates, buildProductSchema } from "@/lib/seo";
+import { htmlToText } from "@/lib/sanitize";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
+import JsonLd from "@/components/seo/JsonLd";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}): Promise<Metadata> {
+  const { lang, slug } = await params;
+  if (!isLocale(lang)) return {};
+
+  const decodedSlug = decodeURIComponent(slug);
+  const candle = await getCandleBySlug(lang, decodedSlug);
+  if (!candle) return {};
+
+  const localizedSlugs = await getCandleLocalizedSlugs(decodedSlug);
+  return {
+    title: candle.name,
+    description: candle.description ? htmlToText(candle.description).slice(0, 160) : undefined,
+    alternates: buildCandleAlternates(localizedSlugs, lang),
+  };
+}
 
 export default async function CandleDetailPage({
   params,
@@ -30,6 +54,7 @@ export default async function CandleDetailPage({
 
   return (
     <section className="py-16 sm:py-20">
+      <JsonLd data={buildProductSchema(candle, lang as Locale)} />
       <Container>
         <Link
           href={`/${lang}/candles`}

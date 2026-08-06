@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# .env.production has no secrets (NEXT_PUBLIC_* only) and needs to ship with
+# the deploy, so it's committed.
+!.env.production
 
 # vercel
 .vercel

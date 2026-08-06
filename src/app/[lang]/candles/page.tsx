@@ -1,9 +1,27 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
 import { getCandles, getCandlesPageContent } from "@/lib/graphql/queries/candles";
+import { buildAlternates } from "@/lib/seo";
 import Container from "@/components/ui/Container";
 import CandleTabs from "@/components/candles/CandleTabs";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isLocale(lang)) return {};
+
+  const pageContent = await getCandlesPageContent(lang);
+  return {
+    title: pageContent.candlesPageHeading,
+    description: pageContent.candlesPageSubheading,
+    alternates: buildAlternates("/candles", lang),
+  };
+}
 
 export default async function CandlesPage({
   params,

@@ -1,9 +1,27 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
 import { getCandles } from "@/lib/graphql/queries/candles";
+import { buildAlternates } from "@/lib/seo";
 import Container from "@/components/ui/Container";
 import CandleGrid from "@/components/candles/CandleGrid";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isLocale(lang)) return {};
+
+  const dict = await getDictionary(lang);
+  return {
+    title: dict.candles.decorativeHeading,
+    description: dict.candles.decorativeDescription,
+    alternates: buildAlternates("/candles/decorative", lang),
+  };
+}
 
 export default async function DecorativeCandlesPage({
   params,

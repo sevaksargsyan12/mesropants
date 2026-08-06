@@ -1,10 +1,30 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
 import { getAboutContent } from "@/lib/graphql/queries/about";
+import { buildAlternates } from "@/lib/seo";
+import { htmlToText } from "@/lib/sanitize";
 import Container from "@/components/ui/Container";
 import RevealText from "@/components/ui/RevealText";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isLocale(lang)) return {};
+
+  const dict = await getDictionary(lang);
+  const about = await getAboutContent(lang);
+  return {
+    title: dict.about.pageTitle,
+    description: htmlToText(about.aboutText).slice(0, 160),
+    alternates: buildAlternates("/about", lang),
+  };
+}
 
 export default async function AboutPage({
   params,

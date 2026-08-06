@@ -1,11 +1,29 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Phone, MapPin } from "lucide-react";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
 import { getContactPageData } from "@/lib/graphql/queries/contact";
+import { buildAlternates } from "@/lib/seo";
 import Container from "@/components/ui/Container";
 import SocialLinks from "@/components/layout/SocialLinks";
 import ContactForm from "@/components/contact/ContactForm";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  if (!isLocale(lang)) return {};
+
+  const { contactHeading, contactSubheading } = await getContactPageData(lang);
+  return {
+    title: contactHeading,
+    description: contactSubheading,
+    alternates: buildAlternates("/contact", lang),
+  };
+}
 
 export default async function ContactPage({
   params,
