@@ -75,13 +75,21 @@
     "formHeading": "Write to us",
     "formNameLabel": "Name",
     "formNamePlaceholder": "Your name",
+    "formPhoneLabel": "Phone",
+    "formPhonePlaceholder": "+374 XX XXX XXX",
     "formEmailLabel": "Email",
     "formEmailPlaceholder": "you@example.com",
     "formMessageLabel": "Message",
     "formMessagePlaceholder": "Your message...",
     "formSubmit": "Send",
     "formSuccess": "Thank you! Your message has been sent.",
-    "formError": "Couldn't send your message. Please try again."
+    "formError": "Couldn't send your message. Please try again.",
+    "formErrors": {
+      "name": "Name must be 2–100 characters",
+      "phone": "Please enter a valid phone number",
+      "email": "Please enter a valid email address",
+      "message": "Message must be 10–2000 characters"
+    }
   },
   "footer": {
     "tagline": "Handmade candles, crafted with heart",

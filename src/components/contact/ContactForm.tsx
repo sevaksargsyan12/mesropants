@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import type { Dictionary } from "@/lib/i18n/getDictionary";
+import { validateContactPayload, type ContactFieldErrors } from "@/lib/validate-contact";
 
 type ContactFormProps = {
   dict: Dictionary["contact"];
@@ -11,6 +12,7 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export default function ContactForm({ dict }: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,27 +28,40 @@ export default function ContactForm({ dict }: ContactFormProps) {
       return;
     }
 
+    const payload = {
+      name: String(formData.get("name") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      message: String(formData.get("message") ?? ""),
+    };
+
+    // Run the same validation the API route enforces, for instant inline
+    // errors before ever hitting the network.
+    const errors = validateContactPayload(payload);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      setStatus("error");
+      return;
+    }
+
+    setFieldErrors({});
     setStatus("submitting");
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_WORDPRESS_REST_URL}/mesropants/v1/contact`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: formData.get("name"),
-            email: formData.get("email"),
-            message: formData.get("message"),
-            company: formData.get("company") ?? "",
-          }),
-        }
-      );
-
-      if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, company: formData.get("company") ?? "" }),
+      });
 
       const data = await res.json();
-      if (!data.success) throw new Error("Request did not report success");
+
+      if (!res.ok) {
+        if (data.error === "validation" && data.fieldErrors) {
+          setFieldErrors(data.fieldErrors);
+        }
+        throw new Error(data.error ?? "server");
+      }
 
       setStatus("success");
       form.reset();
@@ -59,7 +74,7 @@ export default function ContactForm({ dict }: ContactFormProps) {
     "w-full rounded-xl border border-burgundy/15 bg-white px-4 py-3 text-sm text-charcoal placeholder:text-charcoal/40 outline-none transition-colors focus:border-gold focus:ring-2 focus:ring-gold/30 dark:border-dark-text/20 dark:bg-dark-bg-soft dark:text-dark-text dark:placeholder:text-dark-text/40";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
       <div>
         <label
           htmlFor="name"
@@ -75,6 +90,29 @@ export default function ContactForm({ dict }: ContactFormProps) {
           placeholder={dict.formNamePlaceholder}
           className={inputClasses}
         />
+        {fieldErrors.name && (
+          <p className="mt-1.5 text-xs font-medium text-red-600">{dict.formErrors.name}</p>
+        )}
+      </div>
+
+      <div>
+        <label
+          htmlFor="phone"
+          className="mb-1.5 block text-sm font-semibold text-burgundy dark:text-dark-text"
+        >
+          {dict.formPhoneLabel}
+        </label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          required
+          placeholder={dict.formPhonePlaceholder}
+          className={inputClasses}
+        />
+        {fieldErrors.phone && (
+          <p className="mt-1.5 text-xs font-medium text-red-600">{dict.formErrors.phone}</p>
+        )}
       </div>
 
       <div>
@@ -92,6 +130,9 @@ export default function ContactForm({ dict }: ContactFormProps) {
           placeholder={dict.formEmailPlaceholder}
           className={inputClasses}
         />
+        {fieldErrors.email && (
+          <p className="mt-1.5 text-xs font-medium text-red-600">{dict.formErrors.email}</p>
+        )}
       </div>
 
       <div>
@@ -109,6 +150,9 @@ export default function ContactForm({ dict }: ContactFormProps) {
           placeholder={dict.formMessagePlaceholder}
           className={`${inputClasses} resize-none`}
         />
+        {fieldErrors.message && (
+          <p className="mt-1.5 text-xs font-medium text-red-600">{dict.formErrors.message}</p>
+        )}
       </div>
 
       {/* Honeypot -- visually hidden and unreachable by keyboard for real
@@ -142,7 +186,7 @@ export default function ContactForm({ dict }: ContactFormProps) {
         </p>
       )}
 
-      {status === "error" && (
+      {status === "error" && Object.keys(fieldErrors).length === 0 && (
         <p className="text-sm font-medium text-red-600" role="alert">
           {dict.formError}
         </p>

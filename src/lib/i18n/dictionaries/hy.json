@@ -75,13 +75,21 @@
     "formHeading": "Գրեք մեզ",
     "formNameLabel": "Անուն",
     "formNamePlaceholder": "Ձեր անունը",
+    "formPhoneLabel": "Հեռախոս",
+    "formPhonePlaceholder": "+374 XX XXX XXX",
     "formEmailLabel": "Էլ. փոստ",
     "formEmailPlaceholder": "you@example.com",
     "formMessageLabel": "Հաղորդագրություն",
     "formMessagePlaceholder": "Ձեր հաղորդագրությունը...",
     "formSubmit": "Ուղարկել",
     "formSuccess": "Շնորհակալություն։ Ձեր հաղորդագրությունը ուղարկված է։",
-    "formError": "Չհաջողվեց ուղարկել հաղորդագրությունը։ Խնդրում ենք փորձել կրկին։"
+    "formError": "Չհաջողվեց ուղարկել հաղորդագրությունը։ Խնդրում ենք փորձել կրկին։",
+    "formErrors": {
+      "name": "Անունը պետք է լինի 2-100 նիշ",
+      "phone": "Խնդրում ենք մուտքագրել վավեր հեռախոսահամար",
+      "email": "Խնդրում ենք մուտքագրել վավեր էլ. հասցե",
+      "message": "Հաղորդագրությունը պետք է լինի 10-2000 նիշ"
+    }
   },
   "footer": {
     "tagline": "Ձեռագործ մոմեր՝ սրտով պատրաստված",

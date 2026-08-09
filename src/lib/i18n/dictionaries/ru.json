@@ -75,13 +75,21 @@
     "formHeading": "Напишите нам",
     "formNameLabel": "Имя",
     "formNamePlaceholder": "Ваше имя",
+    "formPhoneLabel": "Телефон",
+    "formPhonePlaceholder": "+374 XX XXX XXX",
     "formEmailLabel": "Эл. почта",
     "formEmailPlaceholder": "you@example.com",
     "formMessageLabel": "Сообщение",
     "formMessagePlaceholder": "Ваше сообщение...",
     "formSubmit": "Отправить",
     "formSuccess": "Спасибо! Ваше сообщение отправлено.",
-    "formError": "Не удалось отправить сообщение. Пожалуйста, попробуйте снова."
+    "formError": "Не удалось отправить сообщение. Пожалуйста, попробуйте снова.",
+    "formErrors": {
+      "name": "Имя должно содержать от 2 до 100 символов",
+      "phone": "Введите корректный номер телефона",
+      "email": "Введите корректный адрес эл. почты",
+      "message": "Сообщение должно содержать от 10 до 2000 символов"
+    }
   },
   "footer": {
     "tagline": "Ручные свечи, сделанные с душой",
