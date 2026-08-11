@@ -65,6 +65,7 @@ export async function generateMetadata({
     description: dict.home.aboutBlurb,
     keywords: dict.seo.keywords,
     robots: { index: true, follow: true },
+    manifest: "/favicon/site.webmanifest",
     openGraph: {
       siteName: dict.siteName,
       locale: OG_LOCALE[lang],
