@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
@@ -11,6 +10,7 @@ import { htmlToText } from "@/lib/sanitize";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import JsonLd from "@/components/seo/JsonLd";
+import CandleGallery from "@/components/candles/CandleGallery";
 
 export async function generateMetadata({
   params,
@@ -52,6 +52,10 @@ export default async function CandleDetailPage({
       ? dict.candleDetail.categoryChurch
       : dict.candleDetail.categoryDecorative;
 
+  const galleryImages = [candle.featuredImage, ...candle.extraPhotos].filter(
+    (image): image is NonNullable<typeof image> => image != null
+  );
+
   return (
     <section className="py-16 sm:py-20">
       <JsonLd data={buildProductSchema(candle, lang as Locale)} />
@@ -65,20 +69,7 @@ export default async function CandleDetailPage({
         </Link>
 
         <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start">
-          <div className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-t-[6rem] rounded-b-2xl border border-gold/30 motion-safe:animate-shadow-orbit">
-            {candle.featuredImage ? (
-              <Image
-                src={candle.featuredImage.url}
-                alt={candle.featuredImage.altText}
-                fill
-                sizes="(min-width: 1024px) 448px, 90vw"
-                className="object-cover"
-                priority
-              />
-            ) : (
-              <div className="h-full w-full bg-cream-dark dark:bg-dark-bg-soft" />
-            )}
-          </div>
+          <CandleGallery images={galleryImages} fallbackAlt={candle.name} />
 
           <div>
             <span className="inline-block rounded-full bg-gold/15 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-gold-dark">

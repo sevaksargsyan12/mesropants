@@ -8,6 +8,8 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Candle, CandleCategory } from "@/types/candle";
 import { sanitizeHtml } from "@/lib/sanitize";
 
+type RawImageEdge = { node: { sourceUrl: string; altText: string } } | null;
+
 type RawCandleNode = {
   id: string;
   slug: string;
@@ -23,12 +25,23 @@ type RawCandleNode = {
   featuredImage: { node: { sourceUrl: string; altText: string } } | null;
 };
 
+// The single-candle lookup additionally fetches the two optional extra-photo
+// ACF fields -- deliberately NOT part of `RawCandleNode`/`CANDLE_FIELDS`,
+// which the list query (`CANDLES_QUERY`) also uses, so cards/grids never
+// fetch or expose them. Only the single candle detail page needs these.
+type RawCandleDetailNode = RawCandleNode & {
+  candleDetails: RawCandleNode["candleDetails"] & {
+    extraPhoto1: RawImageEdge;
+    extraPhoto2: RawImageEdge;
+  };
+};
+
 type GetCandlesResponse = {
   candles: { nodes: RawCandleNode[] };
 };
 
 type GetCandleBySlugResponse = {
-  candle: RawCandleNode | null;
+  candle: RawCandleDetailNode | null;
 };
 
 const CANDLE_FIELDS = /* GraphQL */ `
@@ -71,6 +84,20 @@ const CANDLE_BY_SLUG_QUERY = /* GraphQL */ `
   query GetCandleBySlug($slug: ID!) {
     candle(id: $slug, idType: SLUG) {
       ${CANDLE_FIELDS}
+      candleDetails {
+        extraPhoto1 {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+        extraPhoto2 {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+      }
     }
   }
 `;
@@ -110,6 +137,21 @@ function toCandle(raw: RawCandleNode): Candle | null {
   };
 }
 
+export type CandleDetail = Candle & {
+  extraPhotos: { url: string; altText: string }[];
+};
+
+function toCandleDetail(raw: RawCandleDetailNode): CandleDetail | null {
+  const base = toCandle(raw);
+  if (!base) return null;
+
+  const extraPhotos = [raw.candleDetails.extraPhoto1, raw.candleDetails.extraPhoto2]
+    .filter((edge): edge is NonNullable<RawImageEdge> => edge != null)
+    .map((edge) => ({ url: edge.node.sourceUrl, altText: edge.node.altText }));
+
+  return { ...base, extraPhotos };
+}
+
 export async function getCandles(lang: Locale): Promise<Candle[]> {
   const data = await fetchGraphQL<GetCandlesResponse>(CANDLES_QUERY, {
     language: localeToLanguageCode(lang),
@@ -123,7 +165,7 @@ export async function getCandles(lang: Locale): Promise<Candle[]> {
 export async function getCandleBySlug(
   lang: Locale,
   slug: string
-): Promise<Candle | null> {
+): Promise<CandleDetail | null> {
   // WPGraphQL's singular `candle(idType: SLUG)` lookup has been observed to
   // both return null AND intermittently fail/time out for slugs that the
   // `candles` list connection resolves fine (confirmed directly against the
@@ -143,14 +185,17 @@ export async function getCandleBySlug(
       slug,
     });
     if (data.candle && data.candle.language?.code === localeToLanguageCode(lang)) {
-      return toCandle(data.candle);
+      return toCandleDetail(data.candle);
     }
   } catch {
     // fall through to the list-based lookup below
   }
 
+  // Resilience fallback only (backend flakiness / language mismatch) -- the
+  // list query never fetches extra photos, so they're simply absent here.
   const all = await getCandles(lang);
-  return all.find((candle) => candle.slug === slug) ?? null;
+  const fallback = all.find((candle) => candle.slug === slug);
+  return fallback ? { ...fallback, extraPhotos: [] } : null;
 }
 
 type RawCandleTranslationsNode = {

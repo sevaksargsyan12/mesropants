@@ -1,6 +1,6 @@
 import { locales, type Locale } from "@/lib/i18n/config";
 import type { SiteSettings } from "@/lib/graphql/queries/siteSettings";
-import type { Candle } from "@/types/candle";
+import type { CandleDetail } from "@/lib/graphql/queries/candles";
 import { htmlToText } from "@/lib/sanitize";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -71,14 +71,20 @@ export function buildCandleAlternates(
 
 // schema.org Product -- rendered on each candle detail page. `offers` is
 // only included when the candle actually shows a price (some candles are
-// "price on request"), matching how the page itself renders price.
-export function buildProductSchema(candle: Candle, lang: Locale) {
+// "price on request"), matching how the page itself renders price. `image`
+// lists every available photo (featured + extra photos), not just the
+// featured one -- schema.org's Product.image accepts an array.
+export function buildProductSchema(candle: CandleDetail, lang: Locale) {
+  const images = [candle.featuredImage?.url, ...candle.extraPhotos.map((p) => p.url)].filter(
+    (url): url is string => Boolean(url)
+  );
+
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: candle.name,
     description: candle.description ? htmlToText(candle.description) : undefined,
-    image: candle.featuredImage?.url,
+    image: images.length > 0 ? images : undefined,
     url: `${SITE_URL}/${lang}/candles/${candle.slug}`,
     category: candle.category === "church" ? "Church candles" : "Decorative candles",
     ...(candle.showPrice && candle.price != null
