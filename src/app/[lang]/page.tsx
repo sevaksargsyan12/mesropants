@@ -3,7 +3,6 @@ import Image from "next/image";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/getDictionary";
 import { getHomeContent } from "@/lib/graphql/queries/home";
-import { getAboutContent } from "@/lib/graphql/queries/about";
 import { getCandles } from "@/lib/graphql/queries/candles";
 import { buildAlternates } from "@/lib/seo";
 import { notFound } from "next/navigation";
@@ -39,7 +38,6 @@ export default async function HomePage({
 
   const dict = await getDictionary(lang as Locale);
   const homeContent = await getHomeContent(lang as Locale);
-  const aboutContent = await getAboutContent(lang as Locale);
   const candles = await getCandles(lang as Locale);
   const featuredCandles = candles.filter((candle) => candle.isFeatured);
 
@@ -58,14 +56,14 @@ export default async function HomePage({
         ctaHref={`/${lang}/candles`}
       />
 
-      {/* About blurb */}
+      {/* Who we are */}
       <section className="py-20">
         <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           <div className="relative order-2 mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-full border border-gold/30 lg:order-1">
-            {aboutContent.aboutImage ? (
+            {homeContent.whoWeAreImage ? (
               <Image
-                src={aboutContent.aboutImage.url}
-                alt={aboutContent.aboutImage.altText || dict.home.aboutHeading}
+                src={homeContent.whoWeAreImage.url}
+                alt={homeContent.whoWeAreImage.altText || homeContent.whoWeAreHeading}
                 fill
                 sizes="(min-width: 1024px) 384px, 80vw"
                 className="object-cover"
@@ -77,11 +75,11 @@ export default async function HomePage({
           <div className="order-1 lg:order-2">
             <RevealText
               as="h2"
-              text={dict.home.aboutHeading}
+              text={homeContent.whoWeAreHeading}
               className="font-display text-3xl font-semibold text-burgundy dark:text-dark-text sm:text-4xl"
             />
             <p className="mt-6 text-base leading-relaxed text-charcoal/80 dark:text-dark-text/80">
-              {dict.home.aboutBlurb}
+              {homeContent.whoWeAreText}
             </p>
             <div className="mt-8">
               <Button

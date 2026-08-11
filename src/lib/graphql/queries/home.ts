@@ -7,6 +7,9 @@ export type HomeContent = {
   heroDescription: string;
   heroButtonText: string;
   heroImages: { url: string; alt: string }[];
+  whoWeAreHeading: string;
+  whoWeAreText: string;
+  whoWeAreImage: { url: string; altText: string } | null;
   featuredHeading: string;
   featuredSubheading: string;
   ctaHeading: string;
@@ -21,6 +24,8 @@ type RawHomeContent = {
   heroHeading: string;
   heroDescription: string;
   heroButtonText: string;
+  whoWeAreHeading: string;
+  whoWeAreText: string;
   featuredHeading: string;
   featuredSubheading: string;
   ctaHeading: string;
@@ -29,6 +34,7 @@ type RawHomeContent = {
   heroImage1: RawImageEdge;
   heroImage2: RawImageEdge;
   heroImage3: RawImageEdge;
+  whoWeAreImage: RawImageEdge;
 };
 
 type RawPageNode = {
@@ -41,13 +47,13 @@ type GetHomeContentResponse = {
   pages: { nodes: RawPageNode[] };
 };
 
-// Anchored on the English slug ("home-2") -- page slugs are translated per
+// Anchored on the English slug ("home") -- page slugs are translated per
 // locale and non-Latin slugs proved unreliable to query directly against
 // this WPGraphQL install, so every locale's content is pulled in one request
 // via the Polylang `translations` connection instead of a per-locale query.
 const QUERY = /* GraphQL */ `
   query GetHomeContent {
-    pages(where: { name: "home-2" }) {
+    pages(where: { name: "home" }) {
       nodes {
         language {
           code
@@ -74,6 +80,8 @@ const QUERY = /* GraphQL */ `
     heroHeading
     heroDescription
     heroButtonText
+    whoWeAreHeading
+    whoWeAreText
     featuredHeading
     featuredSubheading
     ctaHeading
@@ -97,6 +105,12 @@ const QUERY = /* GraphQL */ `
         altText
       }
     }
+    whoWeAreImage {
+      node {
+        sourceUrl
+        altText
+      }
+    }
   }
 `;
 
@@ -111,6 +125,11 @@ function toHomeContent(raw: RawHomeContent): HomeContent {
     heroDescription: raw.heroDescription,
     heroButtonText: raw.heroButtonText,
     heroImages,
+    whoWeAreHeading: raw.whoWeAreHeading,
+    whoWeAreText: raw.whoWeAreText,
+    whoWeAreImage: raw.whoWeAreImage
+      ? { url: raw.whoWeAreImage.node.sourceUrl, altText: raw.whoWeAreImage.node.altText }
+      : null,
     featuredHeading: raw.featuredHeading,
     featuredSubheading: raw.featuredSubheading,
     ctaHeading: raw.ctaHeading,
