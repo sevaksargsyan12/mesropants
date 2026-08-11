@@ -51,6 +51,7 @@ export default async function HomePage({
           src: image.url,
           alt: image.alt || dict.siteName,
         }))}
+        eyebrow={homeContent.heroEyebrow}
         title={homeContent.heroHeading}
         subtitle={homeContent.heroDescription}
         ctaLabel={homeContent.heroButtonText}

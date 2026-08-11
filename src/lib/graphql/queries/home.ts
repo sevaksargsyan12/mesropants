@@ -2,6 +2,7 @@ import { fetchGraphQL, localeToLanguageCode, type WPLanguageCode } from "@/lib/g
 import type { Locale } from "@/lib/i18n/config";
 
 export type HomeContent = {
+  heroEyebrow: string;
   heroHeading: string;
   heroDescription: string;
   heroButtonText: string;
@@ -16,6 +17,7 @@ export type HomeContent = {
 type RawImageEdge = { node: { sourceUrl: string; altText: string } } | null;
 
 type RawHomeContent = {
+  heroEyebrow: string;
   heroHeading: string;
   heroDescription: string;
   heroButtonText: string;
@@ -68,6 +70,7 @@ const QUERY = /* GraphQL */ `
   }
 
   fragment HomeContentFields on HomeContent {
+    heroEyebrow
     heroHeading
     heroDescription
     heroButtonText
@@ -103,6 +106,7 @@ function toHomeContent(raw: RawHomeContent): HomeContent {
     .map((edge) => ({ url: edge.node.sourceUrl, alt: edge.node.altText }));
 
   return {
+    heroEyebrow: raw.heroEyebrow,
     heroHeading: raw.heroHeading,
     heroDescription: raw.heroDescription,
     heroButtonText: raw.heroButtonText,
