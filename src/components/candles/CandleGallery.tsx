@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
@@ -13,28 +13,69 @@ type CandleGalleryProps = {
   fallbackAlt: string;
 };
 
+// Minimum horizontal drag distance (px) before a touch gesture counts as a
+// swipe rather than a tap. Also requires more horizontal than vertical
+// movement, so an incidental vertical scroll attempt doesn't trigger nav.
+const SWIPE_THRESHOLD = 50;
+
 export default function CandleGallery({ images, fallbackAlt }: CandleGalleryProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  // Mobile browsers fire a synthetic click after touchend even when the
+  // gesture was a drag, not a tap -- without this guard a swipe would also
+  // trigger the backdrop's click-to-close.
+  const didSwipe = useRef(false);
 
   const open = lightboxIndex !== null;
   const count = images.length;
+
+  function showNext() {
+    setLightboxIndex((i) => (i === null ? null : (i + 1) % count));
+  }
+
+  function showPrevious() {
+    setLightboxIndex((i) => (i === null ? null : (i - 1 + count) % count));
+  }
 
   useEffect(() => {
     if (!open) return;
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") setLightboxIndex(null);
-      if (event.key === "ArrowRight") {
-        setLightboxIndex((i) => (i === null ? null : (i + 1) % count));
-      }
-      if (event.key === "ArrowLeft") {
-        setLightboxIndex((i) => (i === null ? null : (i - 1 + count) % count));
-      }
+      if (event.key === "ArrowRight") showNext();
+      if (event.key === "ArrowLeft") showPrevious();
     }
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, count]);
+
+  function handleTouchStart(event: React.TouchEvent) {
+    const touch = event.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  }
+
+  function handleTouchEnd(event: React.TouchEvent) {
+    if (!touchStart.current || count <= 1) return;
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStart.current.x;
+    const deltaY = touch.clientY - touchStart.current.y;
+    touchStart.current = null;
+
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) return;
+    didSwipe.current = true;
+    if (deltaX < 0) showNext();
+    else showPrevious();
+  }
+
+  function handleBackdropClick() {
+    if (didSwipe.current) {
+      didSwipe.current = false;
+      return;
+    }
+    setLightboxIndex(null);
+  }
 
   if (count === 0) {
     return (
@@ -90,7 +131,9 @@ export default function CandleGallery({ images, fallbackAlt }: CandleGalleryProp
           role="dialog"
           aria-modal="true"
           className="fixed inset-0 z-[100] flex items-center justify-center bg-charcoal/95 p-4 dark:bg-black/95"
-          onClick={() => setLightboxIndex(null)}
+          onClick={handleBackdropClick}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           <button
             type="button"
@@ -107,7 +150,7 @@ export default function CandleGallery({ images, fallbackAlt }: CandleGalleryProp
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setLightboxIndex((i) => (i === null ? null : (i - 1 + count) % count));
+                  showPrevious();
                 }}
                 aria-label="Previous photo"
                 className="absolute left-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-cream/80 transition-colors hover:bg-cream/10 hover:text-cream sm:left-4"
@@ -118,7 +161,7 @@ export default function CandleGallery({ images, fallbackAlt }: CandleGalleryProp
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setLightboxIndex((i) => (i === null ? null : (i + 1) % count));
+                  showNext();
                 }}
                 aria-label="Next photo"
                 className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-cream/80 transition-colors hover:bg-cream/10 hover:text-cream sm:right-4"
